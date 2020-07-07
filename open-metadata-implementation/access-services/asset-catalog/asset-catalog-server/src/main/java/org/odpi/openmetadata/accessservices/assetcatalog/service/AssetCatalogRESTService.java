@@ -26,8 +26,10 @@ import org.odpi.openmetadata.repositoryservices.ffdc.exception.TypeErrorExceptio
 import org.odpi.openmetadata.repositoryservices.ffdc.exception.UserNotAuthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The AssetCatalogService provides the server-side implementation of the Asset Catalog Open Metadata
@@ -296,6 +298,11 @@ public class AssetCatalogRESTService {
                                           SearchParameters searchParameters) {
         String methodName = "searchByType";
         log.debug(CALLING_METHOD, methodName);
+
+        MDC.put("OMAS_REQID",UUID.randomUUID().toString());
+        log.debug("Using requestTracingID: {}",MDC.get("OMAS_REQID"));
+        log.debug("searchCriteria: {}",searchCriteria);
+        log.debug("searchParameters.entityTypes: {}",searchParameters.getEntityTypes());
 
         AssetListResponse response = new AssetListResponse();
 

@@ -2,6 +2,7 @@
 /* Copyright Contributors to the ODPi Egeria project. */
 package org.odpi.openmetadata.repositoryservices.enterprise.repositoryconnector.control;
 
+import org.odpi.openmetadata.repositoryservices.PerfLoggingUtils;
 import org.odpi.openmetadata.repositoryservices.connectors.stores.metadatacollectionstore.OMRSMetadataCollection;
 import org.odpi.openmetadata.repositoryservices.connectors.stores.metadatacollectionstore.repositoryconnector.OMRSRepositoryConnector;
 import org.odpi.openmetadata.repositoryservices.enterprise.repositoryconnector.executors.RepositoryExecutor;
@@ -52,8 +53,9 @@ public class ParallelFederationControl extends FederationControlBase
                     OMRSMetadataCollection metadataCollection = cohortConnector.getMetadataCollection();
 
                     String metadataCollectionId = this.validateMetadataCollection(metadataCollection, methodName);
-
+                    long start = System.currentTimeMillis();
                     executor.issueRequestToRepository(metadataCollectionId, metadataCollection);
+                    PerfLoggingUtils.logTimeElapsed(start, "OMAS_REQID","executeCommand->" + cohortConnector.getServerName());
                 }
             }
         }

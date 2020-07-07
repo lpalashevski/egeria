@@ -10,6 +10,7 @@ import org.odpi.openmetadata.frameworks.connectors.properties.ConnectionProperti
 import org.odpi.openmetadata.frameworks.connectors.properties.EndpointProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -124,6 +125,11 @@ public class SpringRESTClientConnector extends RESTClientConnector
         HttpHeaders header = new HttpHeaders();
 
         header.set( "Authorization", authHeader );
+
+        //test purpose only
+        if(MDC.get("OMAS_REQID")!=null) {
+            header.set("X-OMAS-RequestId", MDC.get("OMAS_REQID"));
+        }
 
         return header;
     }
